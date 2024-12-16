@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template , request, redirect ,abort
 from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError
 import os
 import pytz
 
@@ -396,105 +396,6 @@ def handle_message(event):
 #         time.sleep(1)
 
 
-
-
-
-# NOTIFICATION_CHECK_TIME = "10:55"
-
-# def send_expiration_notifications():
-#     """期限が3日以内に迫る食材をLINEへ通知"""
-#     try:
-#         # 現在時刻と3日以内の範囲を計算
-#         today = datetime.now().date()
-#         notification_date = today + timedelta(days=3)
-
-#         # 期限が近いアイテムをデータベースから取得
-#         expiring_items = Inventory.query.filter(
-#             Inventory.expiration_date <= notification_date,
-#             Inventory.expiration_date >= today
-#         ).all()
-
-#         # ユーザーごとにメッセージを送信
-#         users_to_notify = {}
-#         for item in expiring_items:
-#             if item.user_id not in users_to_notify:
-#                 users_to_notify[item.user_id] = []
-#             users_to_notify[item.user_id].append(
-#                 f"{item.name} ({item.storage}) - 期限: {item.expiration_date}"
-#             )
-
-#         # LINE通知の送信
-#         for user_id, items in users_to_notify.items():
-#             message = "期限が近い食材があります:\n" + "\n".join(items)
-#             line_bot_api.push_message(user_id, TextSendMessage(text=message))
-
-#     except SQLAlchemyError as e:
-#         print(f"データベースエラー: {e}")
-#     except Exception as e:
-#         print(f"通知処理中のエラー: {e}")
-
-
-# def start_scheduler():
-#     """スケジューラを開始して通知処理を設定"""
-#     scheduler = BackgroundScheduler()
-#     scheduler.add_job(
-#         send_expiration_notifications,
-#         'cron',
-#         hour=NOTIFICATION_CHECK_TIME.split(":")[0],
-#         minute=NOTIFICATION_CHECK_TIME.split(":")[1]
-#     )
-#     scheduler.start()
-
-
-# if __name__ == "__main__":
-    # app = create_app(channel_secret="LINE_CHANNEL_SECRET", channel_access_token="LINE_ACCESS_TOKEN")
-    # with app.app_context():
-    #     db.create_all()  # 必要ならテーブルを初期化
-
-    # 通知スケジューラの開始
-   
-
-
-# # 通知機能: 期限が近い食材をユーザーに通知
-# def notify_users():
-#     today = datetime.now()
-#     notification_list = {}
-
-#     for user_id, user_inventory in inventory.items():
-#         if "inventory" not in user_inventory:
-#             continue
-#         for food_name, food_data in user_inventory["inventory"].items():
-#             expiry_date = datetime.strptime(food_data["expiry_date"], "%Y%m%d")
-#             days_left = (expiry_date - today).days
-
-#             if 0 <= days_left <= 3:  # 期限が3日以内のもの
-#                 if user_id not in notification_list:
-#                     notification_list[user_id] = []
-#                 notification_list[user_id].append(
-#                     f"{food_name}: {food_data['storage']} / 期限: {food_data['expiry_date']}"
-#                 )
-
-#     # ユーザーごとに通知を送信
-#     for user_id, food_list in notification_list.items():
-#         message = "期限が近い食材があります:\n" + "\n".join(food_list)
-#         line_bot_api.push_message(user_id, TextSendMessage(message))
-
-# # スケジュール設定
-# def schedule_notifications():
-#     # schedule.every().day.at("09:00").do(notify_users)  # 毎朝8時に通知
-#     schedule.every(1).minute.do(notify_users)
-#     while True:
-#         schedule.run_pending()
-#         time.sleep(1)
-
-# # スケジュールを別スレッドで実行
-# def start_scheduler():
-#     scheduler_thread = threading.Thread(target=schedule_notifications)
-#     scheduler_thread.daemon = True  # メインスレッド終了時に停止
-#     scheduler_thread.start()
-
-
-
 # ユーザー状態管理用クラス
 class UserState:
     states = {}
@@ -524,12 +425,11 @@ class UserState:
         UserState.data.pop(user_id, None)
 
 
- 
 if __name__ == '__main__' :
-    app.run()
+   
     # start_scheduler()
     # threading.Thread(target=lambda: app.run(debug=True, host='0.0.0.0' , port = 8080,use_reloader=False)).start()
-    # app.debug = True
-    # app.run(host='0.0.0.0' , port = 8080) 
+    app.debug = True
+    app.run(host='0.0.0.0' , port = 8080) 
  
     
